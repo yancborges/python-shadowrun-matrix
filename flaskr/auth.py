@@ -1,4 +1,5 @@
-from flask import Blueprint, Flask, g, redirect, render_template, request, session, url_for, flash
+from flask import Blueprint, g, redirect, render_template, request, session, \
+    url_for, flash
 from werkzeug.security import check_password_hash, generate_password_hash
 from flaskr.db import get_db
 import functools
@@ -6,7 +7,7 @@ import functools
 auth = Blueprint('auth', __name__, url_prefix='/auth')
 
 
-@auth.route('/register', methods=['GET','POST'])
+@auth.route('/register', methods=['GET', 'POST'])
 def register():
 
     if request.method == 'POST':
@@ -26,7 +27,10 @@ def register():
             error = 'User {} is already registered.'.format(username)
 
         if error is None:
-            db.users.insert({'username': username, 'password': generate_password_hash(password)})
+            db.users.insert({
+                'username': username,
+                'password': generate_password_hash(password)
+            })
             return redirect(url_for('auth.login'))
 
         flash(error)
@@ -42,7 +46,7 @@ def login():
         username = request.form['username']
         password = request.form['password']
         db = get_db()
-        error  = None
+        error = None
 
         user = db.users.find_one({'username': username})
         if not user or not check_password_hash(user['password'], password):

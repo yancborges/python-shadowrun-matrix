@@ -1,12 +1,13 @@
 from pymongo import MongoClient
-from flask import current_app, g
-from flask.cli import with_appcontext
+from flask import g
+# from flask.cli import with_appcontext
+from .config import url_mongo, database_name
+
 
 def get_db():
     if 'db' not in g:
-        MONGO_STR = ''
-        client = MongoClient(MONGO_STR)
-        g.db = client['the-matrix']
+        client = MongoClient(url_mongo)
+        g.db = client[database_name]
 
     return g.db
 
@@ -16,7 +17,3 @@ def close_db(e=None):
 
     if db is not None:
         db.close()
-
-    
-
-

@@ -20,11 +20,13 @@ def create_app(test_config=None):
     except OSError:
         pass
 
-
     from . import auth
     app.register_blueprint(auth.auth)
 
-    
+    from .shadowrun.events import sr_events
+    app.register_blueprint(sr_events)
+    app.add_url_rule('/', endpoint='trending')
+
     @app.route('/health')
     def health():
         return 'It works!'
