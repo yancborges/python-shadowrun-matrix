@@ -3,18 +3,19 @@ import random as rand
 
 class Perceptron:
 
-    _weights = []
     size = 2
     learning_rate = 0.1
+    _weights = [rand.randint(-1, 1) for k in range(size)]
 
     def __init__(self):
-        self._weights = [rand.randint(-1, 1) for k in range(self.size)]
+        pass
 
     def guess(self, inputs):
+        self.size = len(inputs)
+
         _sum = 0
-        for w in self._weights:
-            idx = self._weights.index(w)
-            _sum += inputs[idx] * w
+        for w in range(len(self._weights)):
+            _sum += inputs[w] * self._weights[w]
 
         return self.sign(_sum)
 
@@ -24,9 +25,10 @@ class Perceptron:
         return -1
 
     def train(self, inputs, target):
+        self.size = len(inputs)
+
         guess = self.guess(inputs)
         error = target - guess
 
-        for w in self._weights:
-            idx = self._weights.index(w)
-            w += error * inputs[idx] * self.learning_rate
+        for w in range(len(self._weights)):
+            self._weights[w] += error * inputs[w] * self.learning_rate
