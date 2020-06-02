@@ -5,7 +5,7 @@ class Perceptron:
 
     size = 2
     learning_rate = 0.1
-    _weights = [rand.randint(-1, 1) for k in range(size)]
+    __weights = [rand.randint(-1, 1) for k in range(size)]
 
     def __init__(self):
         pass
@@ -14,8 +14,8 @@ class Perceptron:
         self.size = len(inputs)
 
         _sum = 0
-        for w in range(len(self._weights)):
-            _sum += inputs[w] * self._weights[w]
+        for w in range(len(self.__weights)):
+            _sum += inputs[w] * self.__weights[w]
 
         return self.sign(_sum)
 
@@ -30,5 +30,5 @@ class Perceptron:
         guess = self.guess(inputs)
         error = target - guess
 
-        for w in range(len(self._weights)):
-            self._weights[w] += error * inputs[w] * self.learning_rate
+        for w in range(len(self.__weights)):
+            self.__weights[w] += error * inputs[w] * self.learning_rate
